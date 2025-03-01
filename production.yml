@@ -1,0 +1,19 @@
+
+
+services:
+  gophish:
+    image: gophish/gophish:0.12.1
+    container_name: gophish
+    ports:
+      - "3333:3333"
+      - "80:80"
+    platform: linux/amd64
+    env_file:
+      - .env
+    volumes:
+      - gophish:/opt/gophish
+    restart: always
+
+
+volumes:
+  gophish: {}
