@@ -5,7 +5,9 @@
     "cert_path": "gophish_admin.crt",
     "key_path": "gophish_admin.key",
     "trusted_origins": [
-      "*"
+      "http://localhost",
+      "http://3.128.170.71/",
+      "http://3.128.170.71/gophish"
     ]
   },
   "phish_server": {
