@@ -9,10 +9,10 @@ Type=simple
 WorkingDirectory=/opt/server-phishing-basic
 EnvironmentFile=/etc/phishing-server/phishing-server
 
-ExecStartPre=/usr/local/bin/docker-compose -f ${COMPOSE_FILE} pull  # Opcional: Asegura que tienes la última versión de la imagen
-ExecStart=/usr/local/bin/docker-compose -f ${COMPOSE_FILE} up -d
-ExecStop=/usr/local/bin/docker-compose -f ${COMPOSE_FILE} down
-ExecReload=/usr/local/bin/docker-compose -f ${COMPOSE_FILE} up -d
+ExecStartPre=/usr/local/bin/docker-compose -f ${ENV}.yml build
+ExecStart=/usr/local/bin/docker-compose -f ${ENV}.yml up -d
+ExecStop=/usr/local/bin/docker-compose -f ${ENV}.yml down
+ExecReload=/usr/local/bin/docker-compose -f ${ENV}.yml up -d
 
 Restart=always
 RestartSec=5s
