@@ -5,8 +5,12 @@
     "cert_path": "gophish_admin.crt",
     "key_path": "gophish_admin.key",
     "trusted_origins": [
+      "http://localhost",
       "http://localhost:3333",
-      "http://127.0.0.1:3333"
+      "http://127.0.0.1",
+      "http://127.0.0.1:3333",
+      "http://3.128.170.71/",
+      "http://3.128.170.71/gophish"
     ]
   },
   "phish_server": {
@@ -20,7 +24,7 @@
   "migrations_prefix": "db/db_",
   "contact_address": "",
   "logging": {
-    "filename": "/var/log/gophish.log",
-    "level": "info"
+    "filename": "",
+    "level": "debug"
   }
 }
