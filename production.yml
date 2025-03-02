@@ -8,8 +8,6 @@ services:
       - "3333:3333"
       - "80:80"
     platform: linux/amd64
-    env_file:
-      - .env
     volumes:
       - gophish:/opt/gophish
     restart: always
