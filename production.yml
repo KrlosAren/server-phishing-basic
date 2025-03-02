@@ -40,6 +40,7 @@ services:
       - "--providers.docker.exposedbydefault=false"
       - "--entryPoints.web.address=:80"
       - "--log.level=DEBUG"
+      - "traefik.http.routers.gophish-admin.rule=Host(`dashboard.grandefensa.org`)"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
     restart: always
