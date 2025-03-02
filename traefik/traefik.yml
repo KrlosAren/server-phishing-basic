@@ -1,3 +1,24 @@
 entryPoints:
   web:
     address: ":80"
+
+providers:
+  docker:
+    exposedByDefault: false
+
+api:
+  insecure: true # Solo para pruebas, desactívalo en producción
+
+http:
+  routers:
+    gophish:
+      rule: "Host(`phishing.example.com`)"
+      service: "gophish"
+      entryPoints:
+        - web
+
+  services:
+    gophish:
+      loadBalancer:
+        servers:
+          - url: "http://gophish:9000"
