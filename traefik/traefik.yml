@@ -12,7 +12,7 @@ api:
 http:
   routers:
     gophish:
-      rule: "Host(`phishing.example.com`)"
+      rule: "PrefixPath(`/`)"
       service: "gophish"
       entryPoints:
         - web
