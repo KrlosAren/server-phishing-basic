@@ -1,21 +1,40 @@
 [Unit]
 Description=Gophish Phishing Server
+Documentation=https://getgophish.com/documentation/
 Requires=docker.service
 After=docker.service network-online.target
 Wants=network-online.target
 
 [Service]
-Type=simple
+Type=oneshot
+RemainAfterExit=yes
 WorkingDirectory=/opt/server-phishing-basic
 EnvironmentFile=/etc/phishing-server/phishing-server
 
-ExecStartPre=/usr/local/bin/docker-compose -f ${ENV}.yml build
+# Verifica que el directorio y los archivos existan antes de iniciar
+ExecStartPre=/bin/bash -c 'if [ ! -f "${ENV}.yml" ]; then echo "Configuration file ${ENV}.yml does not exist"; exit 1; fi'
+
+# Primero parar cualquier instancia anterior para evitar conflictos
+ExecStartPre=/usr/local/bin/docker-compose -f ${ENV}.yml down
+
+# Iniciar el servicio
 ExecStart=/usr/local/bin/docker-compose -f ${ENV}.yml up -d
+
+# Configuración para detener correctamente
 ExecStop=/usr/local/bin/docker-compose -f ${ENV}.yml down
+
+# Configuración para reiniciar
 ExecReload=/usr/local/bin/docker-compose -f ${ENV}.yml restart
 
-Restart=always
-RestartSec=5s
+Restart=on-failure
+RestartSec=10s
+
+# Límites de recursos
+TimeoutStartSec=180
+TimeoutStopSec=120
+
+# Seguridad
+NoNewPrivileges=true
 
 StandardOutput=journal
 StandardError=journal
