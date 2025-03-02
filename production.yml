@@ -12,17 +12,13 @@ services:
     labels:
       - "traefik.enable=true"
       # Configuración para el panel de administración
-      - "traefik.http.routers.gophish-admin.rule=PathPrefix(`/gophish`)"
+      - "traefik.http.routers.gophish-admin.rule=Host(`app.grandefensa.org`)"
       - "traefik.http.routers.gophish-admin.entryPoints=web"
       - "traefik.http.services.gophish-admin.loadbalancer.server.port=3333"
-      - "traefik.http.middlewares.gophish-strip.stripprefix.prefixes=/gophish"
-      - "traefik.http.routers.gophish-admin.middlewares=gophish-strip"
       # Configuración para el servidor de phishing
-      - "traefik.http.routers.gophish-phish.rule=PathPrefix(`/server`)"
+      - "traefik.http.routers.gophish-phish.rule=PathPrefix(`server.grandefensa.org`)"
       - "traefik.http.routers.gophish-phish.entryPoints=web"
       - "traefik.http.services.gophish-phish.loadbalancer.server.port=9000"
-      - "traefik.http.middlewares.server-strip.stripprefix.prefixes=/server"
-      - "traefik.http.routers.gophish-phish.middlewares=server-strip"
     restart: always
     networks:
       - web
