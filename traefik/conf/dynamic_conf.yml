@@ -4,7 +4,7 @@ http:
     auth:
       basicAuth:
         users:
-          - "gophish_server:KzPy7Q78mUn/sJOM/6J0IxUrj30="
+          - "gophish_server:$apr1$isocMTyr$1I1OwxCfDr6YlVQQuSNcZ1"
 
     redirect-to-https:
       redirectScheme:
