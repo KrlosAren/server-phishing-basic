@@ -9,6 +9,8 @@ services:
       - ./config.json:/opt/gophish/config.json
       - gophish:/opt/gophish
     restart: always
+    labels:
+      "ex"
 
   traefik:
     build:
@@ -25,8 +27,8 @@ services:
       - "--providers.docker.exposedbydefault=false"
       - "--entryPoints.web.address=:80"
     volumes:
-      # - ./traefik/traefik.yml:/etc/traefik/traefik.yml
-      # - ./traefik/dynamic-config.yml:/etc/traefik/dynamic-config.yml
+      - "./traefik/traefik.yml:/etc/traefik/traefik.yml"
+      - "./traefik/dynamic-config.yml:/etc/traefik/dynamic-config.yml"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
     restart: always
 

@@ -1,0 +1,14 @@
+
+http:
+  routers:
+    app:
+      rule: "PathPrefix(`/`)"
+      service: "app"
+      entryPoints:
+        - web
+
+  services:
+    app:
+      loadBalancer:
+        servers:
+          - url: "http://3.128.170.71:3333"
