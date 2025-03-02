@@ -6,7 +6,7 @@ Wants=network-online.target
 
 [Service]
 Type=simple
-WorkingDirectory=/home/ec2-user/server-phishing-basic
+WorkingDirectory=/opt/server-phishing-basic
 EnvironmentFile=/etc/phishing-server/phishing-server
 
 ExecStartPre=/usr/local/bin/docker-compose -f ${COMPOSE_FILE} pull  # Opcional: Asegura que tienes la última versión de la imagen
