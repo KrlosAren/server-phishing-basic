@@ -12,7 +12,7 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.gophish.rule=PathPrefix(`/gophish`)"
       - "traefik.http.routers.gophish.entryPoints=web"
-      - "traefik.http.services.gophish.loadbalancer.server.port=9000"
+      - "traefik.http.services.gophish.loadbalancer.server.port=3333"
       - "traefik.http.middlewares.gophish-strip.stripprefix.prefixes=/gophish"
       - "traefik.http.routers.gophish.middlewares=gophish-strip"
     restart: always
