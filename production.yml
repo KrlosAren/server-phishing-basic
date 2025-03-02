@@ -4,7 +4,7 @@ services:
     container_name: gophish
     ports:
       - "3333:3333"
-      - "80:80"
+      - "8080:8080"
     volumes:
       - ./config.json:/opt/gophish/config.json
       - gophish:/opt/gophish
