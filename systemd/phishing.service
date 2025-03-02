@@ -10,7 +10,7 @@ RemainAfterExit=yes
 WorkingDirectory=/home/ec2-user/server-phishing-basic
 EnvironmentFile=/etc/phishing-server/phishing-server
 
-ExecStart=/usr/local/bin/docker-compose -f ${COMPOSE_FILE} up -d
+ExecStart=/usr/local/bin/docker-compose -f ${COMPOSE_FILE} up -d --build
 ExecStop=/usr/local/bin/docker-compose -f ${COMPOSE_FILE} down
 
 ExecReload=/usr/local/bin/docker-compose -f ${COMPOSE_FILE} up -d
