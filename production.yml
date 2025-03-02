@@ -4,6 +4,7 @@ services:
   gophish:
     image: gophish/gophish:0.12.1
     container_name: gophish
+    platform: linux/amd64
     ports:
       - "3333:3333"
       - "80:80"
