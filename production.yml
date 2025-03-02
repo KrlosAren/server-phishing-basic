@@ -10,7 +10,7 @@ services:
       - gophish:/opt/gophish
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.gophish.rule=Host(`phishing.example.com`)"
+      - "traefik.http.routers.gophish.rule=PathPrefix(`/`)"
       - "traefik.http.routers.gophish.entryPoints=web"
       - "traefik.http.services.gophish.loadbalancer.server.port=9000"
     restart: always
