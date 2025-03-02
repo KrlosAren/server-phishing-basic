@@ -12,7 +12,7 @@ EnvironmentFile=/etc/phishing-server/phishing-server
 ExecStartPre=/usr/local/bin/docker-compose -f ${ENV}.yml build
 ExecStart=/usr/local/bin/docker-compose -f ${ENV}.yml up -d
 ExecStop=/usr/local/bin/docker-compose -f ${ENV}.yml down
-ExecReload=/usr/local/bin/docker-compose -f ${ENV}.yml up -d
+ExecReload=/usr/local/bin/docker-compose -f ${ENV}.yml restart
 
 Restart=always
 RestartSec=5s
