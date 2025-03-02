@@ -1,0 +1,37 @@
+# Static configuration
+entryPoints:
+  web:
+    address: ":80"
+    http:
+      redirections:
+        entryPoint:
+          to: websecure
+          scheme: https
+
+  websecure:
+    address: ":443"
+
+accessLog: {}
+
+api:
+  dashboard: true
+  insecure: false
+
+log:
+  level: "INFO" # Changed from DEBUG to reduce verbosity in production
+
+providers:
+  file:
+    directory: "/etc/traefik"
+    watch: true
+  docker:
+    exposedByDefault: false
+    endpoint: "unix:///var/run/docker.sock"
+
+certificatesResolvers:
+  letsencrypt:
+    acme:
+      email: "carlos.lopez@simplilatam.com"
+      storage: "/certificates/acme.json"
+      httpChallenge:
+        entryPoint: web

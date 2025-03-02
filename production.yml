@@ -10,16 +10,18 @@ services:
       - gophish:/opt/gophish
     labels:
       - "traefik.enable=true"
-      # Configuración para el panel de administración
-      - "traefik.http.routers.gophish.rule=Host(`app.grandefensa.org`)"
-      - "traefik.http.routers.gophish.entryPoints=websecure"
-      - "traefik.http.routers.gophish.tls.certresolver=myresolver"
-      - "traefik.http.services.gophish.loadbalancer.server.port=3333"
-      # Configuración para el servidor de phishing
-      - "traefik.http.routers.gophish-phish.rule=Host(`server.grandefensa.org`)"
-      - "traefik.http.routers.gophish-phish.entryPoints=websecure"
-      - "traefik.http.routers.gophish-phish.tls.certresolver=myresolver"
-      - "traefik.http.services.gophish-phish.loadbalancer.server.port=9000"
+      ## server app
+      - "traefik.http.routers.app.rule=Host(`app.grandefensa.org`)"
+      - "traefik.http.routers.app.entrypoints=websecure"
+      - "traefik.http.routers.app.tls=true"
+      - "traefik.http.routers.app.tls.certresolver=letsencrypt"
+      - "traefik.http.services.app.loadbalancer.server.port=3333"
+      ## server phish
+      - "traefik.http.routers.app.rule=Host(`server.grandefensa.org`)"
+      - "traefik.http.routers.app.entrypoints=websecure"
+      - "traefik.http.routers.app.tls=true"
+      - "traefik.http.routers.app.tls.certresolver=letsencrypt"
+      - "traefik.http.services.app.loadbalancer.server.port=9000"
     restart: always
     networks:
       - web
@@ -30,25 +32,19 @@ services:
         max-file: "3"
 
   traefik:
-    image: traefik:v2.9
+    build:
+      context: .
+      dockerfile: ./traefik/Dockerfile
+    image: proxy:latest
     container_name: traefik
     ports:
       - "80:80"
       - "8080:8080"
-      - "443:443"
-    command:
-      - "--api.insecure=true"  # Permite acceder al dashboard en desarrollo
-      - "--providers.docker=true"
-      - "--providers.docker.exposedbydefault=false"
-      - "--entrypoints.web.address=:80"  # HTTP
-      - "--entrypoints.websecure.address=:443"  # HTTPS
-      - "--certificatesresolvers.myresolver.acme.tlschallenge=true"  # Usar TLS-ALPN challenge
-      - "--certificatesresolvers.myresolver.acme.email=krlosaren@gmail.com"  # Email para recibir notificaciones de Let's Encrypt
-      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"  # Donde se guardarán los certificados
-      - "--log.level=DEBUG"  # Para depuración
+      - "443:443"    
     volumes:
+      - "./letsencrypt:/certificates"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
-      - "letsencrypt:/letsencrypt"
+      - "./traefik/conf:/etc/traefik"
     restart: always
     networks:
       - web

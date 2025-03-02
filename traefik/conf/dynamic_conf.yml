@@ -1,0 +1,65 @@
+# Dynamic configuration
+http:
+  middlewares:
+    auth:
+      basicAuth:
+        users:
+          - "simpli-ml:$apr1$c6ZZ0TAB$H6/dnPJ5JK4Nl/JpFFul71"
+
+    redirect-to-https:
+      redirectScheme:
+        scheme: https
+        permanent: true
+
+    acme-middleware:
+      stripPrefix:
+        prefixes:
+          - "/.well-known/acme-challenge/"
+
+  routers:
+    traefik-dashboard:
+      entryPoints:
+        - "websecure"
+      rule: "Host(`dashboard.grandefensa.org`)"
+      service: "api@internal"
+      middlewares:
+        - "auth"
+      tls:
+        certResolver: "letsencrypt"
+
+    app:
+      entryPoints:
+        - "websecure"
+      rule: "Host(`app.grandefensa.org`)"
+      service: "app"
+      tls:
+        certResolver: "letsencrypt"
+    
+    server:
+      entryPoints:
+        - "websecure"
+      rule: "Host(`server.grandefensa.org`)"
+      service: "server"
+      tls:
+        certResolver: "letsencrypt"
+
+    # ACME challenge router - must accept HTTP
+    acme-challenge:
+      entryPoints:
+        - "web"
+      rule: "PathPrefix(`/.well-known/acme-challenge/`)"
+      service: "noop@internal"
+      priority: 100
+
+  services:
+    app:
+      loadBalancer:
+        servers:
+          - url: "http://gophish:3333"
+    server:
+      loadBalancer:
+        servers:
+          - url: "http://gophish:9000"
+
+  # No definir rutas para los servicios app e iker_agent aquí
+  # Ya que están definidos mediante etiquetas Docker
