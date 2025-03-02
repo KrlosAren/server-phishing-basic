@@ -9,8 +9,6 @@ services:
       - ./config.json:/opt/gophish/config.json
       - gophish:/opt/gophish
     restart: always
-    labels:
-      "ex"
 
   traefik:
     build:
