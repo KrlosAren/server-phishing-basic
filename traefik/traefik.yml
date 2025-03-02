@@ -8,6 +8,7 @@ providers:
 
 api:
   insecure: true # Solo para pruebas, desactívalo en producción
+  debug: true
 
 http:
   routers:
