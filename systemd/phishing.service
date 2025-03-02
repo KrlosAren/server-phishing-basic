@@ -1,19 +1,21 @@
 [Unit]
-Description=gophish phising server
+Description=Gophish Phishing Server
 Requires=docker.service
 After=docker.service network-online.target
 Wants=network-online.target
 
 [Service]
-Type=oneshot
-RemainAfterExit=yes
+Type=simple
 WorkingDirectory=/home/ec2-user/server-phishing-basic
 EnvironmentFile=/etc/phishing-server/phishing-server
 
-ExecStart=/usr/local/bin/docker-compose -f ${COMPOSE_FILE} up -d --build
+ExecStartPre=/usr/local/bin/docker-compose -f ${COMPOSE_FILE} pull  # Opcional: Asegura que tienes la última versión de la imagen
+ExecStart=/usr/local/bin/docker-compose -f ${COMPOSE_FILE} up -d
 ExecStop=/usr/local/bin/docker-compose -f ${COMPOSE_FILE} down
-
 ExecReload=/usr/local/bin/docker-compose -f ${COMPOSE_FILE} up -d
+
+Restart=always
+RestartSec=5s
 
 StandardOutput=journal
 StandardError=journal
