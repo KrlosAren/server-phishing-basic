@@ -35,11 +35,11 @@ http:
       tls:
         certResolver: "letsencrypt"
     
-    server:
+    landing:
       entryPoints:
         - "websecure"
-      rule: "Host(`server.grandefensa.org`)"
-      service: "server"
+      rule: "Host(`landing.grandefensa.org`)"
+      service: "landing"
       tls:
         certResolver: "letsencrypt"
 
@@ -56,7 +56,7 @@ http:
       loadBalancer:
         servers:
           - url: "http://gophish:3333"
-    server:
+    landing:
       loadBalancer:
         servers:
           - url: "http://gophish:9000"
