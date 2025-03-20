@@ -7,10 +7,18 @@ import loguru
 app = FastAPI()
 
 
-@app.get("/files")
+@app.get('/files')
+def get_files():
+    file_path = './files/Descuentos_SENATI_Colaboradores_Marzo 2025.docx'
+    return FileResponse(
+        path=file_path,
+        filename='Descuentos_SENATI_Colaboradores_Marzo 2025.docx',
+    )
+
+@app.get("/file")
 async def get_file(request: Request, url: str = Query(...)):
     """Registra el clic en GoPhish y luego redirige al archivo"""
-    file_url = "https://tracker.grandefensa.org/files/Descuentos_SENATI_Colaboradores_Marzo_2025.docx"
+    file_url = "https://tracker.grandefensa.org/files"
 
     # Extraer los headers originales del usuario
     headers = {
