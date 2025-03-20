@@ -5,10 +5,10 @@ http:
       basicAuth:
         users:
           - "gophish_server:$apr1$isocMTyr$1I1OwxCfDr6YlVQQuSNcZ1"
-    real-ip:
-      forwardedHeaders:
-        trustedIPs:
-          - "0.0.0.0/0"
+    # real-ip:
+    #   forwardedHeaders:
+    #     trustedIPs:
+    #       - "0.0.0.0/0"
 
     redirect-to-https:
       redirectScheme:
@@ -64,18 +64,19 @@ http:
       priority: 100
 
   services:
+
     app:
       loadBalancer:
         servers:
           - url: "http://gophish:3333"
+
     landing:
       loadBalancer:
         servers:
           - url: "http://gophish:9000"
+
     tracker:
       loadBalancer:
-        middlewares:
-          - "real-ip"
         servers:
           - url: "http://tracker:8000"
 
