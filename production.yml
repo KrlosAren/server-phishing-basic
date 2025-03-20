@@ -8,20 +8,20 @@ services:
     volumes:
       - ./config.json:/opt/gophish/config.json
       - gophish:/opt/gophish
-    labels:
-      - "traefik.enable=true"
-      ## server app
-      - "traefik.http.routers.app.rule=Host(`app.grandefensa.org`)"
-      - "traefik.http.routers.app.entrypoints=websecure"
-      - "traefik.http.routers.app.tls=true"
-      - "traefik.http.routers.app.tls.certresolver=letsencrypt"
-      - "traefik.http.services.app.loadbalancer.server.port=3333"
-      ## server phish
-      - "traefik.http.routers.landing.rule=Host(`landing.grandefensa.org`)"
-      - "traefik.http.routers.landing.entrypoints=websecure"
-      - "traefik.http.routers.landing.tls=true"
-      - "traefik.http.routers.landing.tls.certresolver=letsencrypt"
-      - "traefik.http.services.landing.loadbalancer.server.port=9000"
+    # labels:
+    #   - "traefik.enable=true"
+    #   ## server app
+    #   - "traefik.http.routers.app.rule=Host(`app.grandefensa.org`)"
+    #   - "traefik.http.routers.app.entrypoints=websecure"
+    #   - "traefik.http.routers.app.tls=true"
+    #   - "traefik.http.routers.app.tls.certresolver=letsencrypt"
+    #   - "traefik.http.services.app.loadbalancer.server.port=3333"
+    #   ## server phish
+    #   - "traefik.http.routers.landing.rule=Host(`landing.grandefensa.org`)"
+    #   - "traefik.http.routers.landing.entrypoints=websecure"
+    #   - "traefik.http.routers.landing.tls=true"
+    #   - "traefik.http.routers.landing.tls.certresolver=letsencrypt"
+    #   - "traefik.http.services.landing.loadbalancer.server.port=9000"
     restart: always
     networks:
       - web
@@ -30,6 +30,27 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
+    
+    tracker:
+      build:
+        context: ./tracker_app
+        dockerfile: ./Dockerfile
+      image: "app:latest"
+      restart: always
+      networks:
+        - web
+      logging:
+        driver: "json-file"
+        options:
+          max-size: "10m"
+          max-file: "3"
+      # labels:
+      #   - "traefik.enable=true"
+      #   - "traefik.http.routers.tracker.rule=Host(`tracker.grandefensa.org`)"
+      #   - "traefik.http.routers.tracker.entrypoints=websecure"
+      #   - "traefik.http.routers.tracker.tls=true"
+      #   - "traefik.http.routers.tracker.tls.certresolver=letsencrypt"
+      #   - "traefik.http.services.tracker.loadbalancer.server.port=8000"
 
   traefik:
     build:

@@ -43,6 +43,14 @@ http:
       tls:
         certResolver: "letsencrypt"
 
+    tracker:
+      entryPoints:
+        - "websecure"
+      rule: "Host(`tracker.grandefensa.org`)"
+      service: "tracker"
+      tls:
+        certResolver: "letsencrypt"
+
     # ACME challenge router - must accept HTTP
     acme-challenge:
       entryPoints:
@@ -60,6 +68,10 @@ http:
       loadBalancer:
         servers:
           - url: "http://gophish:9000"
+    tracker:
+      loadBalancer:
+        servers:
+          - url: "http://tracker:8000"
 
   # No definir rutas para los servicios app e iker_agent aquí
   # Ya que están definidos mediante etiquetas Docker
