@@ -31,9 +31,6 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
-    labels:
-      - "traefik.http.middlewares.real-ip.forwardedHeaders.trustedIPs=0.0.0.0/0"
-      - "traefik.http.middlewares.real-ip.forwardedHeaders.insecure=true"
 
   traefik:
     build:
@@ -57,9 +54,6 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
-    labels:
-      - "traefik.http.middlewares.real-ip.forwardedHeaders.trustedIPs=0.0.0.0/0"
-      - "traefik.http.middlewares.real-ip.forwardedHeaders.insecure=true"
 
 volumes:
   gophish: {}
