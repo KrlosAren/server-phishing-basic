@@ -11,7 +11,7 @@ app = FastAPI()
 def health():
     return {"status": "ok"}
 
-@app.post("/log")
+@app.get("/log")
 def log(request: Request):
     """Endpoint para recibir logs de GoPhish"""
     loguru.logger.info(request.json())
