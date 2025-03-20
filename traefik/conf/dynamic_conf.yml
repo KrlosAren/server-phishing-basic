@@ -6,8 +6,8 @@ http:
         users:
           - "gophish_server:$apr1$isocMTyr$1I1OwxCfDr6YlVQQuSNcZ1"
     real-ip:
-      forwardedHeaders:
-        trustedIPs:
+      forwardedheaders:
+        trustedips:
           - "0.0.0.0/0"
     redirect-to-https:
       redirectScheme:
