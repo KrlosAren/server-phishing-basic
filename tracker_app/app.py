@@ -6,6 +6,22 @@ import loguru
 
 app = FastAPI()
 
+@app.get('/health')
+def health():
+    return {'status': 'ok'}
+
+@app.get("/debug-headers")
+async def debug_headers(request: Request):
+    """Endpoint para depurar cabeceras recibidas"""
+    headers_dict = dict(request.headers)
+    client_ip = request.headers.get("X-Forwarded-For") or request.headers.get("X-Real-IP") or request.client.host
+    
+    return {
+        "headers": headers_dict,
+        "client_ip": client_ip,
+        "remote_addr": request.client.host
+    }
+
 
 @app.get('/files')
 def get_files():
