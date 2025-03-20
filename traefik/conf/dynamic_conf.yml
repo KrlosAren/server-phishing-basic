@@ -5,10 +5,7 @@ http:
       basicAuth:
         users:
           - "gophish_server:$apr1$isocMTyr$1I1OwxCfDr6YlVQQuSNcZ1"
-    real-ip:
-      forwardedheaders:
-        trustedips:
-          - "0.0.0.0/0"
+
     redirect-to-https:
       redirectScheme:
         scheme: https
@@ -44,8 +41,6 @@ http:
         - "websecure"
       rule: "Host(`landing.grandefensa.org`)"
       service: "landing"
-      middlewares:
-        - "real-ip"
       tls:
         certResolver: "letsencrypt"
 
@@ -54,8 +49,6 @@ http:
         - "websecure"
       rule: "Host(`tracker.grandefensa.org`)"
       service: "tracker"
-      middlewares:
-        - "real-ip"
       tls:
         certResolver: "letsencrypt"
 
