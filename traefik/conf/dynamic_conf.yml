@@ -31,8 +31,6 @@ http:
         - "websecure"
       rule: "Host(`app.grandefensa.org`)"
       service: "app"
-      middlewares:
-        - "real-ip"
       tls:
         certResolver: "letsencrypt"
     
