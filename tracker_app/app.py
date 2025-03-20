@@ -25,6 +25,7 @@ async def get_file(request: Request, url: str = Query(...)):
         "User-Agent": request.headers.get("User-Agent", ""),
         "Referer": request.headers.get("Referer", ""),
         "X-Forwarded-For": request.headers.get("X-Forwarded-For", request.client.host),  # Obtener IP real
+        "X-Real-IP": request.headers.get("X-Real-IP", request.client.host),
     }
 
     loguru.logger.info(f"Tracking en GoPhish con URL: {url}")
