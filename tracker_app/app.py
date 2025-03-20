@@ -98,7 +98,16 @@ async def get_file(request: Request, url: str = Query(...)):
         "X-Originating-IP": client_ip,
     }
 
-    payload = {"details": {"ip": client_ip, "url": url, "headers": headers}}
+    payload = {"details": 
+        {
+            "browser" :
+            {
+                "ip": client_ip, 
+                "url": url, 
+                "headers": headers
+            }
+        }
+    }
 
     loguru.logger.info(f"Tracking en GoPhish con URL modificada: {new_url}")
     loguru.logger.info(f"IP del cliente: {client_ip}")
