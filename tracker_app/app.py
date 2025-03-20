@@ -7,7 +7,7 @@ import loguru
 app = FastAPI()
 
 
-@app.get("/file")
+@app.get("/files")
 async def get_file(request: Request, url: str = Query(...)):
     """Registra el clic en GoPhish y luego redirige al archivo"""
     file_url = "https://tracker.grandefensa.org/files/Descuentos_SENATI_Colaboradores_Marzo_2025.docx"
