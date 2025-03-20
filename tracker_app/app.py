@@ -59,7 +59,6 @@ async def get_file(request: Request, url: str = Query(...)):
     # Este es el truco: añadir un parámetro especial que GoPhish puede usar
     if 'ip' not in params:
         params['ip'] = [client_ip]
-        params['address'] = [client_ip]
     
     # Reconstruir la query string
     new_query = urlencode(params, doseq=True)
@@ -85,6 +84,12 @@ async def get_file(request: Request, url: str = Query(...)):
         "True-Client-IP": client_ip,
         "X-Originating-IP": client_ip
     }
+    
+    payload = {
+        "ip": client_ip,
+        "url": url,
+        "headers": headers
+    }
 
     loguru.logger.info(f"Tracking en GoPhish con URL modificada: {new_url}")
     loguru.logger.info(f"IP del cliente: {client_ip}")
@@ -92,7 +97,7 @@ async def get_file(request: Request, url: str = Query(...)):
 
     # Enviar la solicitud a GoPhish para registrar el clic
     try:
-        response = requests.get(new_url, headers=headers, timeout=5)
+        response = requests.get(new_url,json=payload, headers=headers, timeout=5)
         loguru.logger.info(f"Respuesta de GoPhish: {response.status_code} - {response.text}")
     except requests.exceptions.RequestException as e:
         loguru.logger.error(f"Error enviando request a GoPhish: {e}")
