@@ -59,6 +59,7 @@ async def get_file(request: Request, url: str = Query(...)):
     # Este es el truco: añadir un parámetro especial que GoPhish puede usar
     if 'ip' not in params:
         params['ip'] = [client_ip]
+        params['address'] = [client_ip]
     
     # Reconstruir la query string
     new_query = urlencode(params, doseq=True)
