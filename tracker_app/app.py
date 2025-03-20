@@ -36,15 +36,23 @@ async def get_file(request: Request, url: str = Query(...)):
     """Registra el clic en GoPhish y luego redirige al archivo"""
     file_url = "https://tracker.grandefensa.org/files"
 
+    # Obtener la IP real del cliente a través de las cabeceras de Traefik
+    client_ip = request.headers.get("X-Forwarded-For") or request.headers.get("X-Real-IP") or request.client.host
+    
+    # Si X-Forwarded-For contiene múltiples IPs, tomar la primera (la del cliente original)
+    if client_ip and "," in client_ip:
+        client_ip = client_ip.split(",")[0].strip()
+    
     # Extraer los headers originales del usuario
     headers = {
         "User-Agent": request.headers.get("User-Agent", ""),
         "Referer": request.headers.get("Referer", ""),
-        "X-Forwarded-For": request.headers.get("X-Forwarded-For", request.client.host),  # Obtener IP real
-        "X-Real-IP": request.headers.get("X-Real-IP", request.client.host),
+        "X-Forwarded-For": client_ip,
+        "X-Real-IP": client_ip,
     }
 
     loguru.logger.info(f"Tracking en GoPhish con URL: {url}")
+    loguru.logger.info(f"IP del cliente: {client_ip}")
     loguru.logger.info(f"Headers reenviados: {headers}")
 
     # Enviar la solicitud a GoPhish para registrar el clic
