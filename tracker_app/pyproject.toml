@@ -6,7 +6,7 @@ authors = [
     {name = "carlos lopez",email = "krlosaren@gmail.com"}
 ]
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.12,<4.0"
 
 [tool.poetry]
 package-mode = false
@@ -14,6 +14,8 @@ package-mode = false
 
 [tool.poetry.dependencies]
 fastapi = {extras = ["all"], version = "^0.115.11"}
+loguru = "^0.7.3"
+requests = "^2.32.3"
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
