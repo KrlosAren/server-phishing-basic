@@ -1,6 +1,9 @@
 from fastapi import FastAPI, Request, Query
+from typing import Dict
 import logging
 from fastapi.responses import FileResponse, RedirectResponse
+
+from pydantic import BaseModel
 
 import requests
 import loguru
@@ -11,22 +14,28 @@ app = FastAPI()
 logger = logging.getLogger(__name__)
 
 
+class WebhookRequest(BaseModel):
+    email: str
+    time: str
+    message : str
+    details : Dict[str, str]
+
 @app.get("/health")
 def health():
     return {"status": "ok"}
 
 @app.post("/log")
-async def log(request: Request):
+async def log(event: WebhookRequest):
     """Endpoint para recibir logs de GoPhish"""
     
     try:
         ## print body data
-        body = await request.json()
-        print(body)
+        logger.info(event)
         
         return {
             'status': 200,
             'message': 'Log received',
+            'data': event.dict()
         }
     except Exception as e:
         logger.error(e)
@@ -140,9 +149,9 @@ async def get_file(request: Request, url: str = Query(...)):
     # Enviar la solicitud a GoPhish para registrar el clic
     try:
         response = requests.get(new_url, json=payload, headers=headers, timeout=5)
-        loguru.logger.info(
-            f"Respuesta de GoPhish: {response.status_code} - {response.text}"
-        )
+        # loguru.logger.info(
+        #     f"Respuesta de GoPhish: {response.status_code} - {response.text}"
+        # )
     except requests.exceptions.RequestException as e:
         loguru.logger.error(f"Error enviando request a GoPhish: {e}")
 
