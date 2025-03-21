@@ -1,10 +1,14 @@
 from fastapi import FastAPI, Request, Query
+import logging
 from fastapi.responses import FileResponse, RedirectResponse
 
 import requests
 import loguru
 
 app = FastAPI()
+
+
+logger = logging.getLogger(__name__)
 
 
 @app.get("/health")
@@ -16,7 +20,7 @@ def log(request: Request):
     """Endpoint para recibir logs de GoPhish"""
     
     ## print body data
-    loguru.logger.info(request.json())
+    logger.info(request.json())
     
     return {
         'status': 200,
