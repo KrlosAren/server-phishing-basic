@@ -16,12 +16,13 @@ def health():
     return {"status": "ok"}
 
 @app.post("/log")
-def log(request: Request):
+async def log(request: Request):
     """Endpoint para recibir logs de GoPhish"""
     
     try:
         ## print body data
-        print(dir(request))
+        body = await request.json()
+        print(body)
         
         return {
             'status': 200,
