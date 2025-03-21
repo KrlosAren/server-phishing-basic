@@ -26,7 +26,6 @@ def log(request: Request):
         return {
             'status': 200,
             'message': 'Log received',
-            'data': request.json()
         }
     except Exception as e:
         logger.error(e)
