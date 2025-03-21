@@ -21,7 +21,7 @@ def log(request: Request):
     
     try:
         ## print body data
-        print(request)
+        print(dir(request))
         
         return {
             'status': 200,
