@@ -19,15 +19,22 @@ def health():
 def log(request: Request):
     """Endpoint para recibir logs de GoPhish"""
     
-    ## print body data
-    logger.info(request.json())
-    
-    return {
-        'status': 200,
-        'message': 'Log received',
-        'data': request.json()
-    }
-
+    try:
+        ## print body data
+        logger.info(request.json())
+        
+        return {
+            'status': 200,
+            'message': 'Log received',
+            'data': request.json()
+        }
+    except Exception as e:
+        logger.error(e)
+        return {
+            'status': 500,
+            'message': 'Error receiving log',
+            'data': None
+        }
 
 @app.get("/debug-headers")
 async def debug_headers(request: Request):
