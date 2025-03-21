@@ -14,7 +14,10 @@ def health():
 @app.post("/log")
 def log(request: Request):
     """Endpoint para recibir logs de GoPhish"""
+    
+    ## print body data
     loguru.logger.info(request.json())
+    
     return {
         'status': 200,
         'message': 'Log received',
